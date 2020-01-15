@@ -7,7 +7,7 @@ play-*.*
 _tmp
 _test-results
 stats.json
-src/**/*.js
+
 src/**/*.map
 
 ## Ignore Visual Studio temporary files, build results, and
