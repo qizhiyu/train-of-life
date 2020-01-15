@@ -1,8 +1,11 @@
 let camera, scene, renderer;
 let geometry, material, mesh;
 
-init();
-animate();
+{
+  console.log('Started at', new Date());
+  init();
+  animate();
+}
 
 function init() {}
 
