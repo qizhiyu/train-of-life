@@ -4,12 +4,18 @@
   "description": "A train and its light scenery, inspired by art work at Echigo-Tsumari Satoyama Museum of Contemporary Art, KINARE 越後妻有里山現代美術館 キナーレ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --open --inline --hot"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "prettier": "^1.19.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.10"
   }
 }
