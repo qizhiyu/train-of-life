@@ -1,3 +1,5 @@
+import { loadRail } from './rail';
+
 let camera, scene, renderer;
 let geometry, material, mesh;
 
@@ -7,7 +9,17 @@ let geometry, material, mesh;
   animate();
 }
 
-function init() {}
+function init() {
+  loadRoom();
+  loadRail();
+  loadBridge();
+  loadVillages();
+  loadForest();
+
+  setupTrain({speed = 1.0, withLight: true, forward : true, });
+
+  setupCamera();
+}
 
 function animate() {
   return;
