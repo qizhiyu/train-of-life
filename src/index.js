@@ -16,7 +16,7 @@ function init() {
   loadVillages();
   loadForest();
 
-  setupTrain({speed = 1.0, withLight: true, forward : true, });
+  setupTrain({ speed: 1.0, withLight: true, forward: true });
 
   setupCamera();
 }
