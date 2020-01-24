@@ -85,3 +85,9 @@ a, button, input, select {
 	color: #777777;
 	font-size: 12px;
 }
+
+#container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
