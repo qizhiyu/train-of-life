@@ -6,7 +6,6 @@ import { setupCamera } from './camera';
 // let geometry, material, mesh;
 
 {
-  console.log('Started at', new Date());
   init();
   animate();
 }
@@ -33,6 +32,7 @@ const setupScene = () => {
 };
 
 function init() {
+  console.log('Start initializing at', new Date());
   const scene = setupScene();
 
   const camera = setupCamera();
@@ -42,6 +42,7 @@ function init() {
 }
 
 const render = (scene: THREE.Scene, camera: THREE.PerspectiveCamera) => {
+  console.log('Start rendering at', new Date());
   const container = getContainer();
   if (!container) return;
 
