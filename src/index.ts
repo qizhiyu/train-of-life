@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { loadRail } from './rail';
 import { setupCamera } from './camera';
 
@@ -10,8 +11,18 @@ import { setupCamera } from './camera';
   animate();
 }
 
+const loadRoom = (): void => {
+  //const container = document.querySelector('#container');
+
+  // create a Scene
+  const scene = new THREE.Scene();
+
+  // Set the background color
+  scene.background = new THREE.Color('skyblue');
+};
+
 function init() {
-  // loadRoom();
+  loadRoom();
   loadRail();
   // loadBridge();
   // loadVillages();
