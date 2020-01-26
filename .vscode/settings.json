@@ -10,5 +10,6 @@
         "Tsumari",
         "mrdoob",
         "rawgit"
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

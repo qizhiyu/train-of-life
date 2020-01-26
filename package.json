@@ -5,17 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "webpack --config config/webpack.config.js",
     "start": "webpack-dev-server --open --inline --hot"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "prettier": "^1.19.1",
-    "typescript": "^3.7.4",
-    "webpack": "^4.41.5",
-    "webpack-dev-server": "^3.10.1"
+    "three": "^0.112.1",
+    "webpack": "^4.41.5"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.10"
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   }
 }
