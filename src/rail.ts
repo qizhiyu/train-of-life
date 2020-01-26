@@ -1,9 +1,6 @@
 import * as THREE from 'three';
 
-export const loadRail = () => {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color('skyblue');
-
+export const loadRail = (scene: THREE.Scene) => {
   const geometry = new THREE.CircleBufferGeometry(2, 2, 2);
   return !!geometry;
 };

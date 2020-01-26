@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 
-export const setupCamera = () => {
+export const setupCamera = (): THREE.PerspectiveCamera | undefined => {
   const fov = 35; // AKA Field of View
   const container = document.querySelector('#container');
-  if (!container) return;
+  if (!container) return undefined;
 
   const aspect = container.clientWidth / container.clientHeight;
 
@@ -13,4 +13,5 @@ export const setupCamera = () => {
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
   camera.position.set(0, 0, 10);
+  return camera;
 };

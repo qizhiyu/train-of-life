@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { loadRail } from './rail';
+import { loadRail as addRail } from './rail';
 import { setupCamera } from './camera';
 
 // let camera, scene, renderer;
@@ -11,27 +11,52 @@ import { setupCamera } from './camera';
   animate();
 }
 
-const loadRoom = (): void => {
-  //const container = document.querySelector('#container');
+const getContainer = () => document.querySelector('#container');
+const addRoom = (scene: THREE.Scene): void => {};
 
+const setupScene = () => {
   // create a Scene
   const scene = new THREE.Scene();
 
   // Set the background color
   scene.background = new THREE.Color('skyblue');
-};
 
-function init() {
-  loadRoom();
-  loadRail();
+  addRoom(scene);
+  addRail(scene);
+  // addLocomotive(scene);
+
   // loadBridge();
   // loadVillages();
   // loadForest();
 
-  // setupTrain({ speed: 1.0, withLight: true, forward: true });
+  return scene;
+};
 
-  setupCamera();
+function init() {
+  const scene = setupScene();
+
+  const camera = setupCamera();
+  if (!camera) return;
+
+  render(scene, camera);
 }
+
+const render = (scene: THREE.Scene, camera: THREE.PerspectiveCamera) => {
+  const container = getContainer();
+  if (!container) return;
+
+  // create the renderer
+  const renderer = new THREE.WebGLRenderer();
+
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  // add the automatically created <canvas> element to the page
+  container.appendChild(renderer.domElement);
+
+  // render, or 'create a still image', of the scene
+  renderer.render(scene, camera);
+};
 
 function animate() {
   return;
