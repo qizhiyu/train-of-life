@@ -20,6 +20,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   devServer: {
+    publicPath: '/dist/',
     index: 'index.html',
   },
 };

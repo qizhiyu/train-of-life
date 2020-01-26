@@ -31,16 +31,6 @@ const setupScene = () => {
   return scene;
 };
 
-function init() {
-  console.log('Start initializing at', new Date());
-  const scene = setupScene();
-
-  const camera = setupCamera();
-  if (!camera) return;
-
-  render(scene, camera);
-}
-
 const render = (scene: THREE.Scene, camera: THREE.PerspectiveCamera) => {
   console.log('Start rendering at', new Date());
   const container = getContainer();
@@ -68,4 +58,14 @@ function animate() {
   // mesh.rotation.y += 0.02;
 
   // renderer.render(scene, camera);
+}
+
+function init() {
+  console.log('Start initializing at', new Date());
+  const scene = setupScene();
+
+  const camera = setupCamera();
+  if (!camera) return;
+
+  render(scene, camera);
 }
