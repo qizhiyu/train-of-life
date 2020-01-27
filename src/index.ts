@@ -3,8 +3,6 @@ import { loadRail as addRail } from './rail';
 import { setupCamera } from './camera';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
-// let camera, scene, renderer;
-// let geometry, material, mesh;
 window.onload = () => {
   const container = getContainer();
   if (!container) return;
@@ -24,19 +22,9 @@ class TrainScene {
   private _camera: THREE.Camera;
 
   constructor(container: Element) {
-    this._renderer = new THREE.WebGLRenderer();
-    this._scene = new THREE.Scene();
     this._container = container;
-    this._camera = setupCamera(this._container);
-    this._controls = setupControls(this._camera);
 
-    this.init = this.init.bind(this);
-    this.animate = this.animate.bind(this);
-  }
-
-  init() {
-    console.log('Start initializing at', new Date());
-    this._scene = setupScene();
+    this._renderer = new THREE.WebGLRenderer();
 
     // create the renderer
     this._renderer.setSize(
@@ -46,23 +34,36 @@ class TrainScene {
     this._renderer.setPixelRatio(window.devicePixelRatio);
     // add the automatically created <canvas> element to the page
     this._container.appendChild(this._renderer.domElement);
+
+    this._scene = setupScene();
+
+    this._camera = setupCamera(this._container);
+    this._controls = setupControls(this._camera, this._renderer.domElement);
+
+    this.init = this.init.bind(this);
+    this.animate = this.animate.bind(this);
+  }
+
+  init() {
+    console.log('Start initializing at', new Date());
   }
 
   animate() {
-    requestAnimationFrame(this.animate);
     this._controls.update();
+    requestAnimationFrame(this.animate);
 
-    this._renderer.render(scene, camera);
+    this._renderer.render(this._scene, this._camera);
   }
 }
 
-const setupControls = (camera: THREE.Camera) => {
-  const controls = new TrackballControls(camera);
+const setupControls = (camera: THREE.Camera, domElement: HTMLCanvasElement) => {
+  const controls = new TrackballControls(camera, domElement);
   controls.rotateSpeed = 1.0;
   controls.zoomSpeed = 1.0;
   controls.panSpeed = 1.0;
   controls.staticMoving = true;
   controls.keys = [65, 83, 68];
+  controls.enabled = true;
   return controls;
 };
 
@@ -75,7 +76,7 @@ const addRoom = (scene: THREE.Scene): void => {
 
   cube.position.set(-0.1, -0.1, -0.1);
   cube.receiveShadow = true;
-  scene.add(cube);
+  // scene.add(cube);
 
   // add spotlight for the shadows
   var spotLight = new THREE.SpotLight(0xffffff);
