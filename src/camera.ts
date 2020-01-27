@@ -1,9 +1,10 @@
 import * as THREE from 'three';
-
-export const setupCamera = (): THREE.PerspectiveCamera | undefined => {
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+/**
+ * Set a camera at 0, 0, 10
+ */
+export const setupCamera = (container: Element): THREE.PerspectiveCamera => {
   const fov = 35; // AKA Field of View
-  const container = document.querySelector('#container');
-  if (!container) return undefined;
 
   const aspect = container.clientWidth / container.clientHeight;
 
@@ -12,6 +13,8 @@ export const setupCamera = (): THREE.PerspectiveCamera | undefined => {
 
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
-  camera.position.set(0, 0, 10);
+  camera.position.set(0, 2, 0.1);
+  camera.lookAt(3, 0, 3);
+
   return camera;
 };
