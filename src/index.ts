@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { loadRail as addRail } from './rail';
 import { setupCamera } from './camera';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 window.onload = () => {
   const container = getContainer();
@@ -18,7 +18,7 @@ class TrainScene {
   private _scene: THREE.Scene;
   private _renderer: THREE.WebGLRenderer;
   private _container: Element;
-  private _controls: TrackballControls;
+  private _controls: OrbitControls;
   private _camera: THREE.Camera;
 
   constructor(container: Element) {
@@ -59,12 +59,10 @@ class TrainScene {
 }
 
 const setupControls = (camera: THREE.Camera, domElement: HTMLCanvasElement) => {
-  const controls = new TrackballControls(camera, domElement);
+  const controls = new OrbitControls(camera, domElement);
   controls.rotateSpeed = 1.0;
   controls.zoomSpeed = 1.0;
   controls.panSpeed = 1.0;
-  controls.staticMoving = true;
-  controls.keys = [65, 83, 68];
   controls.enabled = true;
   return controls;
 };
