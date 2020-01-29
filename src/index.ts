@@ -25,6 +25,8 @@ class TrainScene {
     this._container = container;
 
     this._renderer = new THREE.WebGLRenderer();
+    this._renderer.shadowMap.enabled = true;
+    this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // create the renderer
     this._renderer.setSize(
@@ -68,21 +70,50 @@ const setupControls = (camera: THREE.Camera, domElement: HTMLCanvasElement) => {
 };
 
 const addRoom = (scene: THREE.Scene): void => {
-  // var cubeGeometry = new THREE.BoxGeometry(4, 3, 4);
-  var planeGeometry = new THREE.PlaneGeometry(60, 20);
-
-  var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
-  var cube = new THREE.Mesh(planeGeometry, cubeMaterial);
-
-  cube.position.set(-0.1, -0.1, -0.1);
-  cube.receiveShadow = true;
-  // scene.add(cube);
-
   // add spotlight for the shadows
-  var spotLight = new THREE.SpotLight(0xffffff);
+  const spotLight = new THREE.SpotLight('white', 1, 50, Math.PI / 6);
+
+  // spotLight.target = cube;
+  spotLight.visible = true;
   spotLight.position.set(1, 0.1, 1);
+  spotLight.lookAt(2, 0.1, 1);
   spotLight.castShadow = true;
   scene.add(spotLight);
+
+  const geometry = new THREE.BoxBufferGeometry(6, 4, 6);
+
+  // var geometry = new THREE.PlaneGeometry(60, 20);
+  const cubeMaterial = new THREE.MeshLambertMaterial({
+    color: 'darkgray',
+    side: THREE.DoubleSide,
+  });
+  const cube = new THREE.Mesh(geometry, cubeMaterial);
+  // cube.position.set(0, -1, 0);
+  // cube.rotation.x = -Math.PI * 0.5;
+
+  cube.position.set(3, 2, 3);
+  // cube.position.set(-0.1, -0.1, -0.1);
+  cube.receiveShadow = true;
+  cube.castShadow = true;
+
+  scene.add(cube);
+
+  // const material = new THREE.MeshPhongMaterial({
+  //   color: 0x4080ff,
+  //   dithering: true,
+  // });
+
+  // var box = new THREE.BoxBufferGeometry(3, 1, 2);
+
+  // var mesh = new THREE.Mesh(box, material);
+  // mesh.position.set(0, 2, 0);
+  // mesh.castShadow = true;
+  // scene.add(mesh);
+
+  // var spotLightHelper = new THREE.SpotLightHelper(spotLight);
+  // scene.add(spotLightHelper);
+  // const ambientLight = new THREE.AmbientLight('white');
+  // scene.add(ambientLight);
 };
 
 const setupScene = () => {
@@ -91,7 +122,7 @@ const setupScene = () => {
 
   // Set the background color
   scene.background = new THREE.Color('skyblue');
-  var axes = new THREE.AxesHelper(20);
+  const axes = new THREE.AxesHelper(6);
   scene.add(axes);
 
   addRoom(scene);

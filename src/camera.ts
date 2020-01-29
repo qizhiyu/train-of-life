@@ -12,9 +12,9 @@ export const setupCamera = (container: Element): THREE.PerspectiveCamera => {
   const far = 100; // the far clipping plane
 
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-  camera.position.set(0, 2, 0.1);
-  camera.lookAt(3, 0, 3);
+  // camera.position.set(10, 10, 10);
+  // camera.position.set(0.2, 2, 0.2);
+  camera.position.set(3, 4, 3);
 
   return camera;
 };
