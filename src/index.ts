@@ -68,33 +68,10 @@ const setupControls = (camera: THREE.Camera, domElement: HTMLCanvasElement) => {
 };
 
 const addRoom = (scene: THREE.Scene): void => {
-  // add spotlight for the shadows
-  const spotLight = new THREE.SpotLight('white', 1, 50, Math.PI / 6);
-
-  // spotLight.target = cube;
-  spotLight.visible = true;
-  spotLight.position.set(1, 0.1, 1);
-  spotLight.lookAt(2, 0.1, 1);
-  spotLight.castShadow = true;
-  scene.add(spotLight);
-
-  const geometry = new THREE.BoxBufferGeometry(6, 4, 6);
-
-  // var geometry = new THREE.PlaneGeometry(60, 20);
-  const cubeMaterial = new THREE.MeshLambertMaterial({
-    color: 'darkgray',
-    side: THREE.DoubleSide,
-  });
-  const cube = new THREE.Mesh(geometry, cubeMaterial);
-  // cube.position.set(0, -1, 0);
-  // cube.rotation.x = -Math.PI * 0.5;
-
-  cube.position.set(3, 2, 3);
-  // cube.position.set(-0.1, -0.1, -0.1);
-  cube.receiveShadow = true;
-  cube.castShadow = true;
-
-  scene.add(cube);
+  for (let s = Side.Bottom; s <= Side.Right; s++) {
+    const cube = createWall(s);
+    scene.add(cube);
+  }
 
   // const material = new THREE.MeshPhongMaterial({
   //   color: 0x4080ff,
@@ -120,12 +97,16 @@ const setupScene = () => {
 
   // Set the background color
   scene.background = new THREE.Color('skyblue');
-  const axes = new THREE.AxesHelper(6);
+  const axes = new THREE.AxesHelper(30);
   scene.add(axes);
 
+  // add spotlight for the shadows
+  addLight(scene);
   addRoom(scene);
   addRail(scene);
   // addLocomotive(scene);
+
+  addHouse(scene);
 
   // loadBridge();
   // loadVillages();
@@ -133,3 +114,67 @@ const setupScene = () => {
 
   return scene;
 };
+
+const addHouse = (scene: THREE.Scene) => {
+  const box = new THREE.BoxBufferGeometry(3, 1, 1);
+  const material = new THREE.MeshPhongMaterial({
+    color: 'red',
+    dithering: true,
+  });
+  var mesh = new THREE.Mesh(box, material);
+  mesh.position.set(6, 0, 2);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+};
+
+enum Side {
+  Bottom,
+  Front,
+  Rear,
+  Left,
+  Right,
+}
+
+function addLight(scene: THREE.Scene) {
+  const spotLight = new THREE.SpotLight('white', 1, 50, Math.PI / 6);
+  spotLight.visible = true;
+  spotLight.position.set(1, 0.2, 4);
+  spotLight.lookAt(12, 0.2, 4);
+  spotLight.castShadow = true;
+  scene.add(spotLight);
+}
+
+function createWall(side: Side) {
+  var geometry = new THREE.PlaneGeometry(20, 20);
+  const material = new THREE.MeshLambertMaterial({
+    color: 'white',
+    side: THREE.DoubleSide,
+  });
+
+  const wall = new THREE.Mesh(geometry, material);
+  wall.receiveShadow = true;
+
+  switch (side) {
+    case Side.Bottom:
+      wall.position.set(10, 0, 10);
+      wall.rotation.x = Math.PI * 0.5;
+      break;
+    case Side.Front:
+      wall.position.set(10, 10, 20);
+      break;
+    case Side.Rear:
+      wall.position.set(10, 10, 0);
+      break;
+    case Side.Left:
+      wall.position.set(0, 10, 10);
+      wall.rotation.y = Math.PI * 0.5;
+      break;
+    case Side.Right:
+      wall.position.set(20, 10, 10);
+      wall.rotation.y = Math.PI * 0.5;
+      break;
+  }
+
+  return wall;
+}
