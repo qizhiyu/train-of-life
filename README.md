@@ -4,3 +4,17 @@
 
 Around New Year's Day 2020 — yes, on the eve of the Covid outbreak — I traveled to Japan for two weeks. During the trip, I visited a very special exhibition in a small town in Echigo. Inside was a dark room, where a tiny electric train ran along a short stretch of track. The locomotive carried a light that shone on the forests, houses, and bridges along the way. As the train moved, the shadows on the walls shifted and danced.
 With electricity so readily available now, people rarely experience that feeling of a faint light briefly sweeping through a long stretch of darkness. Before I turned twelve, I lived in a small town in inland China, where power outages were frequent, and I had many chances to see scenes just like that. The setting stirred something in my memory. I want to recreate it in 3D.
+
+## Development
+
+```sh
+npm install
+npm run dev
+```
+
+Useful checks:
+
+```sh
+npm run typecheck
+npm run build
+```
