@@ -57,7 +57,8 @@ class TrainOfLifeScene {
 
   constructor(private readonly container: HTMLElement) {
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.01, 20);
-    this.camera.position.set(2.7, 1.65, 3.15);
+    this.camera.position.set(2.62, 1.62, 1.62);
+    this.camera.lookAt(0, 0.45, 0);
 
     this.renderer.setClearColor(0x020202, 1);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -65,7 +66,7 @@ class TrainOfLifeScene {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.65;
+    this.renderer.toneMappingExposure = 1.95;
 
     this.container.append(this.renderer.domElement);
 
@@ -77,8 +78,8 @@ class TrainOfLifeScene {
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.06;
     this.controls.target.copy(this.cameraTarget);
-    this.controls.minDistance = 0.45;
-    this.controls.maxDistance = 7;
+    this.controls.minDistance = 0.25;
+    this.controls.maxDistance = 6;
     this.controls.maxPolarAngle = Math.PI * 0.49;
 
     this.resize = this.resize.bind(this);
@@ -111,8 +112,8 @@ class TrainOfLifeScene {
     this.scene.add(train.root);
     this.scene.add(train.lampTarget);
 
-    const ambientScatter = new THREE.AmbientLight(0x5a4a35, 0.055);
-    const ceilingBounce = new THREE.HemisphereLight(0x8b7a5f, 0x090604, 0.19);
+    const ambientScatter = new THREE.AmbientLight(0x4a3a28, 0.04);
+    const ceilingBounce = new THREE.HemisphereLight(0x8b7758, 0x080604, 0.14);
     this.scene.add(ambientScatter, ceilingBounce);
 
     return {
@@ -139,9 +140,9 @@ class TrainOfLifeScene {
     const sway = Math.sin(elapsed * 8.2) * 0.0018;
 
     this.train.root.position.set(x, 0.028 + sway, TRAIN_FRONT_Z);
-    this.train.lampTarget.position.set(x + 1.35, 0.075, TRAIN_FRONT_Z - 0.35);
-    this.train.lamp.intensity = 5.6 + Math.sin(elapsed * 9.4) * 0.3;
-    this.train.lamp.angle = 0.62;
+    this.train.lampTarget.position.set(x + 1.85, 0.13, TRAIN_FRONT_Z - 0.55);
+    this.train.lamp.intensity = 28 + Math.sin(elapsed * 9.4) * 1.4;
+    this.train.lamp.angle = 0.72;
 
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
@@ -362,17 +363,18 @@ function createTrain(): TrainRig {
     }
   }
 
-  const lamp = new THREE.SpotLight(0xffc475, 5.6, 4.4, 0.62, 0.78, 1.35);
+  const lamp = new THREE.SpotLight(0xffc475, 28, 5.6, 0.72, 0.62, 1.1);
   lamp.position.set(0.07, TRAIN_HEIGHT * 0.72, 0);
   lamp.castShadow = true;
-  lamp.shadow.mapSize.set(2048, 2048);
+  lamp.shadow.mapSize.set(4096, 4096);
   lamp.shadow.camera.near = 0.01;
-  lamp.shadow.camera.far = 5;
-  lamp.shadow.bias = -0.00002;
+  lamp.shadow.camera.far = 6;
+  lamp.shadow.bias = -0.00001;
+  lamp.shadow.normalBias = 0.001;
   root.add(lamp);
 
   const lampTarget = new THREE.Object3D();
-  lampTarget.position.set(1.35, 0.075, TRAIN_FRONT_Z - 0.35);
+  lampTarget.position.set(1.85, 0.13, TRAIN_FRONT_Z - 0.55);
   lamp.target = lampTarget;
 
   return {
@@ -396,7 +398,7 @@ function createScenery() {
 
   addNailForest(group, silhouette, -1.35, -0.72);
   addRoundBarn(group, silhouette, -1.58, 0.35);
-  addSteelBridge(group, steel, 0.65, -0.92);
+  addSteelBridge(group, steel, 0.65, 0.83);
   addFarmhouse(group, silhouette, 1.42, 0.42);
   addWaterTower(group, silhouette, 0.2, 0.2);
   addFenceAndPoles(group, silhouette, 1.65, -0.35);
