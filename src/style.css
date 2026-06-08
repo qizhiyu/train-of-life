@@ -59,3 +59,40 @@ canvas {
   font-size: 12px;
   line-height: 1.45;
 }
+
+.play-control {
+  position: fixed;
+  right: 18px;
+  bottom: 16px;
+  z-index: 2;
+  min-width: 88px;
+  padding: 9px 18px;
+  border: 1px solid rgba(245, 240, 224, 0.22);
+  border-radius: 999px;
+  background: rgba(20, 18, 14, 0.62);
+  color: rgba(245, 240, 224, 0.9);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.play-control:hover {
+  background: rgba(40, 35, 26, 0.78);
+  border-color: rgba(245, 240, 224, 0.4);
+}
+
+.play-control:active {
+  transform: scale(0.97);
+}
+
+.play-control:focus-visible {
+  outline: 2px solid rgba(245, 240, 224, 0.7);
+  outline-offset: 2px;
+}

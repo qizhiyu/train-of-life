@@ -35,6 +35,8 @@ export class TrainOfLifeScene {
   );
   private readonly cameraTarget = new THREE.Vector3(0, 0.55, 0);
   private frameId = 0;
+  private simTime = 0;
+  private playing = true;
 
   constructor(private readonly container: HTMLElement) {
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.01, 20);
@@ -72,6 +74,19 @@ export class TrainOfLifeScene {
 
   start() {
     this.animate();
+  }
+
+  setPlaying(playing: boolean) {
+    this.playing = playing;
+  }
+
+  isPlaying() {
+    return this.playing;
+  }
+
+  togglePlaying() {
+    this.playing = !this.playing;
+    return this.playing;
   }
 
   dispose() {
@@ -114,7 +129,11 @@ export class TrainOfLifeScene {
   }
 
   private animate() {
-    const elapsed = this.clock.getElapsedTime();
+    const delta = this.clock.getDelta();
+    if (this.playing) {
+      this.simTime += delta;
+    }
+    const elapsed = this.simTime;
     const distance = (elapsed / TRAIN_LOOP_SECONDS) * this.trainPathLength;
     const trainPose = sampleRoundedRectanglePath(
       distance,

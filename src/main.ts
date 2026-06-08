@@ -11,6 +11,8 @@ const shell = createSceneShell(app);
 const experience = new TrainOfLifeScene(shell);
 experience.start();
 
+createPlayControl(app, experience);
+
 function createSceneShell(root: HTMLElement) {
   root.innerHTML = [
     '<section class="scene-shell"></section>',
@@ -26,4 +28,24 @@ function createSceneShell(root: HTMLElement) {
   }
 
   return shellElement;
+}
+
+function createPlayControl(root: HTMLElement, scene: TrainOfLifeScene) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'play-control';
+
+  const render = (playing: boolean) => {
+    button.textContent = playing ? 'Pause' : 'Play';
+    button.setAttribute('aria-label', playing ? 'Pause simulation' : 'Play simulation');
+    button.setAttribute('aria-pressed', String(playing));
+  };
+
+  render(scene.isPlaying());
+
+  button.addEventListener('click', () => {
+    render(scene.togglePlaying());
+  });
+
+  root.append(button);
 }

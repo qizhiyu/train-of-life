@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TRACK_DEPTH } from './constants';
 
 type Point3 = [x: number, y: number, z: number];
 
@@ -14,9 +15,12 @@ export function createScenery() {
     metalness: 0.36,
   });
 
-  addNailForest(group, silhouette, -1.35, -0.72);
+  addNailForest(group, silhouette, -1.35, -0.72, SMALL_FOREST);
+  addNailForest(group, silhouette, -1.55, -1.28, LARGE_FOREST);
+  addNailForest(group, silhouette, -1, 0.72, SMALL_FOREST);
+  addNailForest(group, silhouette, -0.82, 1.28, LARGE_FOREST);
   addRoundBarn(group, silhouette, -1.58, 0.35);
-  addSteelBridge(group, steel, 0.65, 0.83);
+  addSteelBridge(group, steel, 0.65, TRACK_DEPTH / 2);
   addFarmhouse(group, silhouette, 1.42, 0.42);
   addWaterTower(group, silhouette, 0.2, 0.2);
   addFenceAndPoles(group, silhouette, 1.65, -0.35);
@@ -24,18 +28,50 @@ export function createScenery() {
   return group;
 }
 
-function addNailForest(group: THREE.Group, material: THREE.Material, centerX: number, centerZ: number) {
-  const positions = [
-    [-0.16, -0.08, 0.11],
-    [-0.1, 0.02, 0.14],
-    [-0.04, -0.11, 0.12],
-    [0.02, 0.07, 0.15],
-    [0.08, -0.03, 0.1],
-    [0.14, 0.09, 0.13],
-    [0.17, -0.12, 0.145],
-    [-0.18, 0.12, 0.125],
-    [0.0, -0.01, 0.108],
-  ];
+// [xOffset, zOffset, height]
+type NailPosition = [number, number, number];
+
+const SMALL_FOREST: NailPosition[] = [
+  [-0.16, -0.08, 0.11],
+  [-0.1, 0.02, 0.14],
+  [-0.04, -0.11, 0.12],
+  [0.02, 0.07, 0.15],
+  [0.08, -0.03, 0.1],
+  [0.14, 0.09, 0.13],
+  [0.17, -0.12, 0.145],
+  [-0.18, 0.12, 0.125],
+  [0.0, -0.01, 0.108],
+];
+
+const LARGE_FOREST: NailPosition[] = [
+  [-0.35, -0.09, 0.12],
+  [-0.30, 0.07, 0.14],
+  [-0.26, -0.11, 0.115],
+  [-0.21, 0.03, 0.13],
+  [-0.17, -0.07, 0.145],
+  [-0.12, 0.10, 0.11],
+  [-0.08, -0.04, 0.13],
+  [-0.03, 0.08, 0.125],
+  [0.01, -0.10, 0.14],
+  [0.06, 0.05, 0.108],
+  [0.10, -0.02, 0.12],
+  [0.15, 0.11, 0.135],
+  [0.19, -0.08, 0.115],
+  [0.24, 0.04, 0.14],
+  [0.28, -0.11, 0.13],
+  [0.33, 0.07, 0.12],
+  [0.36, -0.05, 0.145],
+  [-0.14, -0.09, 0.12],
+  [0.08, 0.09, 0.11],
+];
+
+function addNailForest(
+  group: THREE.Group,
+  material: THREE.Material,
+  centerX: number,
+  centerZ: number,
+  positions: NailPosition[],
+) {
 
   for (const [xOffset, zOffset, height] of positions) {
     const nail = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.01, height, 10), material);
@@ -64,29 +100,46 @@ function addSteelBridge(group: THREE.Group, material: THREE.Material, x: number,
   const bridge = new THREE.Group();
   bridge.position.set(x, 0, z);
 
-  const deck = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.025, 0.19), material);
-  deck.position.y = 0.075;
+  const halfSpan = 0.39;
+  const frameZ = 0.09;
+  const chordBottom = 0.016;
+  const chordTop = 0.2;
+  const postXs = [-halfSpan, -halfSpan / 2, 0, halfSpan / 2, halfSpan];
+  const chordSize = 0.014;
+  const vertSize = 0.012;
+  const diagSize = 0.010;
+
+  const deck = new THREE.Mesh(new THREE.BoxGeometry(2 * halfSpan, 0.012, 2 * frameZ), material);
+  deck.position.y = 0.006;
   deck.castShadow = true;
   deck.receiveShadow = true;
   bridge.add(deck);
 
-  const frameZ = 0.12;
   for (const zSide of [-frameZ, frameZ]) {
-    const sideBeams: Array<[start: Point3, end: Point3, radius: number]> = [
-      [[-0.39, 0.08, zSide], [-0.39, 0.28, zSide], 0.012],
-      [[0.39, 0.08, zSide], [0.39, 0.28, zSide], 0.012],
-      [[-0.39, 0.28, zSide], [0.39, 0.28, zSide], 0.012],
-      [[-0.39, 0.08, zSide], [0.39, 0.28, zSide], 0.011],
-      [[-0.39, 0.28, zSide], [0.39, 0.08, zSide], 0.011],
-    ];
-
-    for (const [start, end, radius] of sideBeams) {
-      addBeamBetween(bridge, material, start, end, radius);
+    // Bottom and top chord segments
+    for (let i = 0; i < postXs.length - 1; i += 1) {
+      addSquareBeam(bridge, material, [postXs[i], chordBottom, zSide], [postXs[i + 1], chordBottom, zSide], chordSize);
+      addSquareBeam(bridge, material, [postXs[i], chordTop, zSide], [postXs[i + 1], chordTop, zSide], chordSize);
+    }
+    // Vertical posts
+    for (const px of postXs) {
+      addSquareBeam(bridge, material, [px, chordBottom, zSide], [px, chordTop, zSide], vertSize);
+    }
+    // 4 X crosses
+    for (let i = 0; i < postXs.length - 1; i += 1) {
+      addSquareBeam(bridge, material, [postXs[i], chordBottom, zSide], [postXs[i + 1], chordTop, zSide], diagSize);
+      addSquareBeam(bridge, material, [postXs[i], chordTop, zSide], [postXs[i + 1], chordBottom, zSide], diagSize);
     }
   }
 
-  addBeamBetween(bridge, material, [-0.39, 0.28, -frameZ], [-0.39, 0.28, frameZ], 0.009);
-  addBeamBetween(bridge, material, [0.39, 0.28, -frameZ], [0.39, 0.28, frameZ], 0.009);
+  // Top face: cross beams at each post, 4 X crosses along the span
+  for (const px of postXs) {
+    addSquareBeam(bridge, material, [px, chordTop, -frameZ], [px, chordTop, frameZ], vertSize);
+  }
+  for (let i = 0; i < postXs.length - 1; i += 1) {
+    addSquareBeam(bridge, material, [postXs[i], chordTop, -frameZ], [postXs[i + 1], chordTop, frameZ], diagSize);
+    addSquareBeam(bridge, material, [postXs[i], chordTop, frameZ], [postXs[i + 1], chordTop, -frameZ], diagSize);
+  }
 
   group.add(bridge);
 }
@@ -155,20 +208,22 @@ function addFenceAndPoles(group: THREE.Group, material: THREE.Material, x: numbe
   }
 }
 
-function addBeamBetween(
+function addSquareBeam(
   group: THREE.Group,
   material: THREE.Material,
   start: Point3,
   end: Point3,
-  radius: number,
+  size: number,
 ) {
-  addBeam(
-    group,
-    material,
-    new THREE.Vector3(...start),
-    new THREE.Vector3(...end),
-    radius,
-  );
+  const s = new THREE.Vector3(...start);
+  const e = new THREE.Vector3(...end);
+  const length = s.distanceTo(e);
+  const beam = new THREE.Mesh(new THREE.BoxGeometry(size, length, size), material);
+  beam.position.addVectors(s, e).multiplyScalar(0.5);
+  beam.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), e.clone().sub(s).normalize());
+  beam.castShadow = true;
+  beam.receiveShadow = true;
+  group.add(beam);
 }
 
 function addBeam(
