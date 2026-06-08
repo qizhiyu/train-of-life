@@ -1,9 +1,14 @@
 # About
-2020年元旦，对，Covid爆发前夕，我去日本旅游了两周。期间在越后的小镇上去看一个很特别的展览。里面是一个暗室，一个小小的电动火车在一段铁轨上运行。车头是一盏灯光，照在路边的森林、房子、桥梁上。火车在行进，墙上的影子也随之变幻。
-现在电力供应充足，大家可能不经常会这种大段黑暗中幽光略过的感觉。以前我在12岁前，生活在中国内地小镇上，停电常常发生，有很多机会看到这种场景。这个布景触动了我的回忆。我希望用3D来重现它。 
+2020年元旦，正值疫情席卷世界之前的那个冬天，我去了日本旅行两周。
+
+旅途中，在越后的一座小镇上，我偶然走进了一个展览。那本是一次无心的相遇，却成为此行最难忘的记忆之一。展厅里几乎一片漆黑。黑暗中，一列小小的电动火车沿着环形铁轨缓缓前行。车头只有一束微弱的灯光，掠过轨道旁的森林、房舍和桥梁。随着列车移动，墙上的影子也不断拉长、收缩、交错，如同一场无声的戏剧在夜色中上演。
+
+如今，稳定而充足的电力早已让黑暗变得罕见，人们也不太容易再体验到那种长久沉浸于夜色之中，只偶尔有一缕光芒划过眼前的感觉。但我小时候生活在中国内地的一座小镇，停电是再平常不过的事。夏夜里，整条街忽然陷入黑暗，远处的车灯、手电筒的光束，或是谁家窗前摇曳的煤油灯，都曾在黑暗中留下短暂而深刻的痕迹。那种光与影交替出现的记忆，早已沉淀在心底。
+
+当我站在那个展览前，看着微光随着火车缓缓穿行，许多尘封已久的画面忽然被唤醒。于是，我萌生了一个念头：用3D技术，将这份关于光、黑暗与童年记忆的体验重新创造出来。
 
 Around New Year's Day 2020 — yes, on the eve of the Covid outbreak — I traveled to Japan for two weeks. During the trip, I visited a very special exhibition in a small town in Echigo. Inside was a dark room, where a tiny electric train ran along a short stretch of track. The locomotive carried a light that shone on the forests, houses, and bridges along the way. As the train moved, the shadows on the walls shifted and danced.
-With electricity so readily available now, people rarely experience that feeling of a faint light briefly sweeping through a long stretch of darkness. Before I turned twelve, I lived in a small town in inland China, where power outages were frequent, and I had many chances to see scenes just like that. The setting stirred something in my memory. I want to recreate it in 3D.
+With electricity so readily available now, people rarely experience that feeling of a faint light briefly sweeping through a long stretch of darkness. I lived in a small town in inland China, where power outages were frequent, and I had many chances to see scenes just like that. The setting stirred something in my memory. I want to recreate it in 3D.
 
 ## Scene Requirements
 
